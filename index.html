@@ -20,23 +20,24 @@
             BIO: "Thích lập trình, mày mò công nghệ & làm những dự án thú vị. Luôn giữ tinh thần học hỏi và chill! ☕✨",
             TYPING_WORDS: ["DEVELOPER", "CONTENT CREATOR", "CHILL HOUSE OWNER", "TECH ENTHUSIAST"],
             
-            // 2. Hình ảnh (Dán URL ảnh của bạn vào đây)
-            AVATAR_URL: "https://cdn.discordapp.com/attachments/1556260443796803664/1556260683853856798/IMG_20261004_180402.jpg?backend=b2&ex=6ac38434&is=6ac232b4&hm=f56ab40340321ba2105b4a317415265aa59c49308a4a51ccec245348d725c98e&",
+            // 2. Hình ảnh
+            AVATAR_URL: "https://api.dicebear.com/7.x/bottts/svg?seed=Four",
             BANNER_URL: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop",
 
-            // 3. Discord ID (Dùng để hiển thị trạng thái Online/Offline tự động từ Lanyard)
-            DISCORD_USER_ID: "imfour.828", // Nhập Discord User ID thật tại đây
+            // 3. Discord User ID & Server ID
+            DISCORD_USER_ID: "YOUR_DISCORD_USER_ID", 
+            DISCORD_SERVER_ID: "1551278529604231308", // Server ID đã tích hợp
 
-            // 4. Nhạc nền (Link nhạc mp3 hoặc Radio Stream)
+            // 4. Nhạc nền
             LOFI_STREAM_URL: "https://stream.zeno.fm/f3wvbbqmdg8uv",
 
-            // 5. Danh sách các nút Link (Thêm, bớt hoặc sửa thoải mái)
+            // 5. Danh sách các nút Link
             LINKS: [
                 {
                     title: "Chill House Discord",
-                    icon: "fa-brands fa-discord", // Mã icon FontAwesome
+                    icon: "fa-brands fa-discord",
                     url: "https://discord.gg/your-invite-code",
-                    type: "link", // "link" là mở trang web
+                    type: "link",
                     tag: "Tham gia"
                 },
                 {
@@ -56,9 +57,9 @@
                 {
                     title: "Copy Discord Username",
                     icon: "fa-solid fa-copy",
-                    valueToCopy: "four_dev", // Tên username để copy
+                    valueToCopy: "four_dev",
                     toastMessage: "Đã copy Discord Username!",
-                    type: "copy", // "copy" là sao chép vào bộ nhớ tạm
+                    type: "copy",
                     tag: "Copy ID"
                 },
                 {
@@ -136,7 +137,6 @@
             padding-bottom: 24px;
         }
 
-        /* Banner Cover Image */
         .banner-cover {
             width: 100%;
             height: 140px;
@@ -156,7 +156,6 @@
             background: linear-gradient(to top, rgba(13, 18, 30, 1), transparent);
         }
 
-        /* Avatar Container & Neon Rotating Ring */
         .avatar-container {
             position: relative;
             margin-top: -55px;
@@ -205,7 +204,6 @@
             transition: background-color 0.3s ease;
         }
 
-        /* Content Info */
         .content-box {
             padding: 0 20px;
         }
@@ -252,7 +250,6 @@
             margin-bottom: 22px;
         }
 
-        /* Vinyl Music Player */
         .music-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
@@ -317,7 +314,6 @@
             gap: 6px;
         }
 
-        /* Waveform Animation */
         .wave-box {
             display: flex;
             gap: 2px;
@@ -362,11 +358,11 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
-        /* Links List */
         .links {
             display: flex;
             flex-direction: column;
             gap: 12px;
+            margin-bottom: 20px;
         }
 
         .link-card {
@@ -425,7 +421,24 @@
             background: rgba(56, 189, 248, 0.1);
         }
 
-        /* Toast Popup Notification */
+        /* Styling cho Discord Widget */
+        .discord-widget-box {
+            width: 100%;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.5);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            margin-top: 10px;
+        }
+
+        .discord-widget-box iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+            display: block;
+        }
+
         .toast {
             position: fixed;
             bottom: -60px;
@@ -448,7 +461,6 @@
             bottom: 30px;
         }
 
-        /* Footer */
         footer {
             margin-top: 24px;
             color: var(--text-sub);
@@ -507,6 +519,11 @@
             <!-- Container danh sách các nút Link -->
             <div class="links" id="links-container"></div>
 
+            <!-- Khung Discord Server Widget -->
+            <div class="discord-widget-box js-tilt" data-tilt data-tilt-max="3">
+                <iframe id="discord-widget-iframe" src="" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
+
             <footer>
                 © 2026 Designed with ✨ & Hosted on GitHub.
             </footer>
@@ -519,12 +536,16 @@
     <script>
         // --- NẠP DỮ LIỆU TỪ CẤU HÌNH CONFIG ---
         document.addEventListener("DOMContentLoaded", () => {
-            // Nạp Tên & Bio & Hình Ảnh
             document.getElementById('user-name').innerText = CONFIG.NAME;
             document.getElementById('user-bio').innerText = CONFIG.BIO;
             document.getElementById('avatar-img').src = CONFIG.AVATAR_URL;
             document.getElementById('banner-img').style.backgroundImage = `url('${CONFIG.BANNER_URL}')`;
             document.getElementById('bg-audio').src = CONFIG.LOFI_STREAM_URL;
+
+            // Nạp Widget Discord Server
+            if (CONFIG.DISCORD_SERVER_ID) {
+                document.getElementById('discord-widget-iframe').src = `https://discord.com/widget?id=${CONFIG.DISCORD_SERVER_ID}&theme=dark`;
+            }
 
             // Render Danh sách Links
             const container = document.getElementById('links-container');
@@ -552,17 +573,12 @@
                 }
             }).join('');
 
-            // Kích hoạt lại hiệu ứng 3D Tilt cho các nút vừa Render
             VanillaTilt.init(document.querySelectorAll(".js-tilt"));
-
-            // Chạy hiệu ứng chữ gõ
             typingEffect();
-            
-            // Lấy trạng thái Discord
             fetchDiscordStatus();
         });
 
-        // --- 1. Typing Effect ---
+        // --- Typing Effect ---
         let i = 0, timer;
         function typingEffect() {
             let words = CONFIG.TYPING_WORDS;
@@ -597,7 +613,7 @@
             loopDeleting();
         }
 
-        // --- 2. Music Player ---
+        // --- Music Player ---
         const audio = document.getElementById('bg-audio');
         const playIcon = document.getElementById('play-icon');
         const musicCard = document.getElementById('music-card');
@@ -617,7 +633,7 @@
             }
         }
 
-        // --- 3. Copy Toast ---
+        // --- Copy Toast ---
         function copyToClipboard(text, message) {
             navigator.clipboard.writeText(text);
             const toast = document.getElementById('toast');
@@ -626,7 +642,7 @@
             setTimeout(() => { toast.classList.remove('show'); }, 2500);
         }
 
-        // --- 4. Discord Lanyard API ---
+        // --- Discord Lanyard API ---
         async function fetchDiscordStatus() {
             if (!CONFIG.DISCORD_USER_ID || CONFIG.DISCORD_USER_ID === "YOUR_DISCORD_USER_ID") return;
             try {
@@ -642,7 +658,7 @@
         }
         setInterval(fetchDiscordStatus, 30000);
 
-        // --- 5. Interactive Particles Background ---
+        // --- Interactive Particles Background ---
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
 
