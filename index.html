@@ -7,17 +7,18 @@
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Vanilla Tilt.js cho hiệu ứng nghiêng 3D -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
     <style>
         :root {
-            --bg-color: #090d16;
-            --card-bg: rgba(18, 24, 38, 0.65);
-            --card-hover: rgba(30, 41, 59, 0.85);
+            --bg-color: #080c14;
+            --card-bg: rgba(15, 23, 42, 0.7);
+            --card-hover: rgba(30, 41, 59, 0.9);
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
             --accent: #38bdf8;
             --accent-purple: #a855f7;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(56, 189, 248, 0.4);
+            --border: rgba(255, 255, 255, 0.1);
             --online: #22c55e;
             --idle: #eab308;
             --dnd: #ef4444;
@@ -34,14 +35,14 @@
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 40%);
+                radial-gradient(circle at 10% 10%, rgba(56, 189, 248, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.15) 0%, transparent 45%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 24px 16px;
+            padding: 30px 16px;
             overflow-x: hidden;
             position: relative;
         }
@@ -62,42 +63,66 @@
             text-align: center;
             position: relative;
             z-index: 1;
+            background: rgba(13, 18, 30, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            padding-bottom: 24px;
         }
 
-        /* Avatar Container & Glow */
-        .avatar-wrapper {
+        /* Banner Cover Image */
+        .banner-cover {
+            width: 100%;
+            height: 140px;
+            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
             position: relative;
-            display: inline-block;
-            margin-bottom: 18px;
         }
 
-        .avatar-glow {
+        .banner-cover::after {
+            content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, var(--accent), var(--accent-purple));
-            filter: blur(20px);
-            opacity: 0.6;
-            animation: pulse-glow 3s infinite alternate;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 60%;
+            background: linear-gradient(to top, rgba(13, 18, 30, 1), transparent);
         }
 
-        @keyframes pulse-glow {
-            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
-            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        /* Avatar Container & Neon Rotating Ring */
+        .avatar-container {
+            position: relative;
+            margin-top: -55px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        .avatar-ring {
+            width: 116px;
+            height: 116px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--accent-purple), #ec4899, var(--accent));
+            background-size: 300% 300%;
+            animation: spin-gradient 4s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+
+        @keyframes spin-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .profile-img {
-            width: 115px;
-            height: 115px;
+            width: 108px;
+            height: 108px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 2;
+            border: 3px solid #0d121e;
             display: block;
         }
 
@@ -108,26 +133,30 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            border: 3.5px solid var(--bg-color);
+            border: 3.5px solid #0d121e;
             background-color: var(--offline);
             z-index: 3;
             transition: background-color 0.3s ease;
         }
 
-        /* Title & Typing Effect */
+        /* Content Info */
+        .content-box {
+            padding: 0 20px;
+        }
+
         h1 {
             font-size: 1.65rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 6px;
-            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #fff 40%, var(--accent) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .tagline-box {
             height: 24px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -135,7 +164,7 @@
 
         .tagline {
             color: var(--accent);
-            font-size: 0.88rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1.5px;
@@ -152,10 +181,9 @@
 
         .bio-text {
             color: var(--text-sub);
-            font-size: 0.92rem;
-            line-height: 1.6;
+            font-size: 0.9rem;
+            line-height: 1.55;
             margin-bottom: 22px;
-            padding: 0 12px;
         }
 
         /* Vinyl Music Player */
@@ -164,12 +192,11 @@
             border: 1px solid var(--border);
             border-radius: 16px;
             padding: 12px 18px;
-            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            margin-bottom: 18px;
+            transform-style: preserve-3d;
         }
 
         .music-left {
@@ -188,7 +215,6 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            transition: transform 0.5s ease;
         }
 
         .vinyl-center {
@@ -250,7 +276,7 @@
         }
 
         .play-btn {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+            background: rgba(56, 189, 248, 0.15);
             border: 1px solid var(--accent);
             color: var(--accent);
             width: 38px;
@@ -270,7 +296,7 @@
             box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
-        /* Links Section */
+        /* Links List */
         .links {
             display: flex;
             flex-direction: column;
@@ -287,33 +313,15 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
             cursor: pointer;
-        }
-
-        .link-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-            transition: 0.5s;
-        }
-
-        .link-card:hover::before {
-            left: 100%;
         }
 
         .link-card:hover {
             background: var(--card-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
         }
 
         .link-left {
@@ -339,13 +347,253 @@
             font-size: 0.72rem;
             color: var(--text-sub);
             background: rgba(255, 255, 255, 0.05);
-            padding: 4px 8px;
-            border-radius: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
             border: 1px solid var(--border);
             transition: all 0.2s ease;
         }
 
         .link-card:hover .action-tag {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        /* Toast Popup Notification */
+        .toast {
+            position: fixed;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 10px 22px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            bottom: 30px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 24px;
+            color: var(--text-sub);
+            font-size: 0.78rem;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="container">
+        <!-- Banner Ảnh bìa -->
+        <div class="banner-cover"></div>
+
+        <div class="content-box">
+            <!-- Avatar Section -->
+            <div class="avatar-container">
+                <div class="avatar-ring">
+                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Four" alt="Avatar" class="profile-img">
+                </div>
+                <div id="discord-status" class="status-badge" title="Discord Status"></div>
+            </div>
+            
+            <!-- Header -->
+            <h1>Tứ (Four) 👋</h1>
+            <div class="tagline-box">
+                <span class="tagline" id="typing-text"></span>
+            </div>
+            <p class="bio-text">
+                Thích lập trình, mày mò công nghệ & làm những dự án thú vị. Luôn giữ tinh thần học hỏi và chill! ☕✨
+            </p>
+
+            <!-- Music Player Card (Nghiêng 3D) -->
+            <div class="music-card js-tilt" id="music-card" data-tilt data-tilt-max="7" data-tilt-speed="400">
+                <div class="music-left">
+                    <div class="vinyl-record">
+                        <div class="vinyl-center"></div>
+                    </div>
+                    <div class="music-info">
+                        <div class="music-title">Chill Lo-Fi Radio</div>
+                        <div class="music-status">
+                            <span id="status-text">Đang dừng</span>
+                            <div class="wave-box">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="play-btn" onclick="toggleAudio()">
+                    <i class="fa-solid fa-play" id="play-icon"></i>
+                </button>
+                <audio id="bg-audio" loop src="https://stream.zeno.fm/f3wvbbqmdg8uv"></audio>
+            </div>
+
+            <!-- Links List (Nghiêng 3D) -->
+            <div class="links">
+                <a href="https://discord.gg/your-invite-code" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
+                    <div class="link-left">
+                        <i class="fa-brands fa-discord link-icon"></i>
+                        <span class="link-title">Chill House Discord</span>
+                    </div>
+                    <span class="action-tag">Tham gia</span>
+                </a>
+
+                <a href="https://github.com/your-username" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
+                    <div class="link-left">
+                        <i class="fa-brands fa-github link-icon"></i>
+                        <span class="link-title">GitHub Profile</span>
+                    </div>
+                    <span class="action-tag">Ghé thăm</span>
+                </a>
+
+                <a href="https://tiktok.com/@your-username" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
+                    <div class="link-left">
+                        <i class="fa-brands fa-tiktok link-icon"></i>
+                        <span class="link-title">TikTok Channel</span>
+                    </div>
+                    <span class="action-tag">Xem Clip</span>
+                </a>
+
+                <!-- Nút Copy Discord Username -->
+                <div class="link-card js-tilt" data-tilt data-tilt-max="8" onclick="copyToClipboard('four_dev', 'Đã copy Discord Username!')">
+                    <div class="link-left">
+                        <i class="fa-solid fa-copy link-icon"></i>
+                        <span class="link-title">Copy Discord Username</span>
+                    </div>
+                    <span class="action-tag">Copy ID</span>
+                </div>
+
+                <!-- Email Link -->
+                <a href="mailto:your-email@gmail.com" class="link-card js-tilt" data-tilt data-tilt-max="8">
+                    <div class="link-left">
+                        <i class="fa-solid fa-envelope link-icon"></i>
+                        <span class="link-title">Gửi Email Liên Hệ</span>
+                    </div>
+                    <span class="action-tag">Gửi Mail</span>
+                </a>
+            </div>
+
+            <footer>
+                © 2026 Tứ. Designed with ✨ & Hosted on GitHub.
+            </footer>
+        </div>
+    </div>
+
+    <!-- Toast Notification Popup -->
+    <div id="toast" class="toast">Đã copy thành công!</div>
+
+    <script>
+        // --- 1. Typing Effect cho Tagline ---
+        const words = ["DEVELOPER", "CONTENT CREATOR", "CHILL HOUSE OWNER", "TECH ENTHUSIAST"];
+        let i = 0, timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typing-text').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typing-text').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) { i++; } else { i = 0; }
+                    setTimeout(typingEffect, 500);
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 50);
+            };
+            loopDeleting();
+        }
+        typingEffect();
+
+        // --- 2. Music Player Control ---
+        const audio = document.getElementById('bg-audio');
+        const playIcon = document.getElementById('play-icon');
+        const musicCard = document.getElementById('music-card');
+        const statusText = document.getElementById('status-text');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'fa-solid fa-pause';
+                musicCard.classList.add('playing');
+                statusText.innerText = 'Đang phát Lofi...';
+            } else {
+                audio.pause();
+                playIcon.className = 'fa-solid fa-play';
+                musicCard.classList.remove('playing');
+                statusText.innerText = 'Đang dừng';
+            }
+        }
+
+        // --- 3. Copy Clipboard Toast ---
+        function copyToClipboard(text, message) {
+            navigator.clipboard.writeText(text);
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 2500);
+        }
+
+        // --- 4. Discord Lanyard API ---
+        const DISCORD_ID = "YOUR_DISCORD_USER_ID"; // Thay Discord ID thật của bạn ở đây
+        async function fetchDiscordStatus() {
+            if (DISCORD_ID === "YOUR_DISCORD_USER_ID") return;
+            try {
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+                const data = await res.json();
+                if (data.success) {
+                    const status = data.data.discord_status;
+                    const statusElem = document.getElementById('discord-status');
+                    const colors = { online: 'var(--online)', idle: 'var(--idle)', dnd: 'var(--dnd)', offline: 'var(--offline)' };
+                    statusElem.style.backgroundColor = colors[status] || colors.offline;
+                }
+            } catch (e) {}
+        }
+        fetchDiscordStatus();
+        setInterval(fetchDiscordStatus, 30000);
+
+        // --- 5. Interactive Particles ---
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = Array.from({ length: 45 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.rar .action-tag {
             color: var(--accent);
             border-color: var(--border-hover);
         }
