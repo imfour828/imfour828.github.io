@@ -3,192 +3,609 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tứ | Personal Bio</title>
-    <!-- FontAwesome Font for Icons -->
+    <title>Tứ | Personal Bio Portal</title>
+    <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --card-hover: rgba(51, 65, 85, 0.8);
+            --bg-color: #090d16;
+            --card-bg: rgba(18, 24, 38, 0.65);
+            --card-hover: rgba(30, 41, 59, 0.85);
             --text-main: #f8fafc;
             --text-sub: #94a3b8;
             --accent: #38bdf8;
-            --border: rgba(255, 255, 255, 0.1);
+            --accent-purple: #a855f7;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(56, 189, 248, 0.4);
+            --online: #22c55e;
+            --idle: #eab308;
+            --dnd: #ef4444;
+            --offline: #64748b;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
             background-color: var(--bg-color);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+                radial-gradient(circle at 15% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 40%);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 24px 16px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        #particles-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
         }
 
         .container {
             width: 100%;
-            max-width: 480px;
+            max-width: 460px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Avatar Section */
+        /* Avatar Container & Glow */
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 18px;
+        }
+
+        .avatar-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent), var(--accent-purple));
+            filter: blur(20px);
+            opacity: 0.6;
+            animation: pulse-glow 3s infinite alternate;
+        }
+
+        @keyframes pulse-glow {
+            0% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
+            100% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+        }
+
         .profile-img {
-            width: 110px;
-            height: 110px;
+            width: 115px;
+            height: 115px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--accent);
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.3);
-            margin-bottom: 16px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+            display: block;
         }
 
+        .status-badge {
+            position: absolute;
+            bottom: 6px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: 3.5px solid var(--bg-color);
+            background-color: var(--offline);
+            z-index: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Title & Typing Effect */
         h1 {
-            font-size: 1.5rem;
-            font-weight: 700;
+            font-size: 1.65rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
             margin-bottom: 6px;
+            background: linear-gradient(135deg, #fff 30%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline-box {
+            height: 24px;
+            margin-bottom: 14px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .tagline {
             color: var(--accent);
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 12px;
+            font-size: 0.88rem;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            border-right: 2px solid var(--accent);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent); }
         }
 
         .bio-text {
             color: var(--text-sub);
-            font-size: 0.95rem;
-            line-height: 1.5;
-            margin-bottom: 24px;
-            padding: 0 10px;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-bottom: 22px;
+            padding: 0 12px;
+        }
+
+        /* Vinyl Music Player */
+        .music-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 12px 18px;
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .music-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .vinyl-record {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #000 30%, #333 31%, #111 60%, #000 100%);
+            border: 2px solid #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: transform 0.5s ease;
+        }
+
+        .vinyl-center {
+            width: 14px;
+            height: 14px;
+            background: var(--accent);
+            border-radius: 50%;
+            border: 2px solid #000;
+        }
+
+        .playing .vinyl-record {
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        .music-info {
+            text-align: left;
+        }
+
+        .music-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .music-status {
+            font-size: 0.75rem;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Waveform Animation */
+        .wave-box {
+            display: flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 10px;
+        }
+
+        .wave-bar {
+            width: 2px;
+            height: 100%;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .playing .wave-bar:nth-child(1) { animation: wave 0.6s ease infinite alternate; }
+        .playing .wave-bar:nth-child(2) { animation: wave 0.8s ease infinite alternate 0.2s; }
+        .playing .wave-bar:nth-child(3) { animation: wave 0.5s ease infinite alternate 0.4s; }
+
+        @keyframes wave {
+            0% { height: 2px; }
+            100% { height: 10px; }
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s ease;
+        }
+
+        .play-btn:hover {
+            transform: scale(1.08);
+            background: var(--accent);
+            color: #090d16;
+            box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
         }
 
         /* Links Section */
         .links {
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .link-card {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 16px 20px;
-            border-radius: 12px;
+            padding: 15px 20px;
+            border-radius: 14px;
             color: var(--text-main);
             text-decoration: none;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            backdrop-filter: blur(10px);
-            transition: all 0.25s ease;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: 0.5s;
+        }
+
+        .link-card:hover::before {
+            left: 100%;
         }
 
         .link-card:hover {
             background: var(--card-hover);
-            border-color: var(--accent);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border-color: var(--border-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.15);
         }
 
-        .link-content {
+        .link-left {
             display: flex;
             align-items: center;
             gap: 14px;
         }
 
-        .link-content i {
+        .link-icon {
             font-size: 1.3rem;
             color: var(--accent);
-            width: 24px;
+            width: 26px;
+            display: flex;
+            justify-content: center;
         }
 
         .link-title {
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
-        .arrow {
+        .action-tag {
+            font-size: 0.72rem;
             color: var(--text-sub);
-            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+        }
+
+        .link-card:hover .action-tag {
+            color: var(--accent);
+            border-color: var(--border-hover);
+        }
+
+        /* Toast Popup Notification */
+        .toast {
+            position: fixed;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--accent);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            bottom: 30px;
         }
 
         /* Footer */
         footer {
             margin-top: 32px;
             color: var(--text-sub);
-            font-size: 0.8rem;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
         }
     </style>
 </head>
 <body>
 
+    <canvas id="particles-canvas"></canvas>
+
     <div class="container">
-        <!-- Ảnh đại diện -->
-        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Four" alt="Avatar" class="profile-img">
+        <!-- Avatar Section -->
+        <div class="avatar-wrapper">
+            <div class="avatar-glow"></div>
+            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Four" alt="Avatar" class="profile-img">
+            <div id="discord-status" class="status-badge" title="Discord Status"></div>
+        </div>
         
-        <!-- Tên & Bio -->
+        <!-- Header -->
         <h1>Tứ (Four) 👋</h1>
-        <div class="tagline">Developer & Content Creator</div>
+        <div class="tagline-box">
+            <span class="tagline" id="typing-text"></span>
+        </div>
         <p class="bio-text">
             Thích lập trình, mày mò công nghệ & làm những dự án thú vị. Luôn giữ tinh thần học hỏi và chill! ☕✨
         </p>
 
-        <!-- Danh sách liên kết (Links) -->
+        <!-- Music Player Card -->
+        <div class="music-card" id="music-card">
+            <div class="music-left">
+                <div class="vinyl-record">
+                    <div class="vinyl-center"></div>
+                </div>
+                <div class="music-info">
+                    <div class="music-title">Chill Lo-Fi Radio</div>
+                    <div class="music-status">
+                        <span id="status-text">Đang dừng</span>
+                        <div class="wave-box">
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                            <div class="wave-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="play-btn" onclick="toggleAudio()">
+                <i class="fa-solid fa-play" id="play-icon"></i>
+            </button>
+            <audio id="bg-audio" loop src="https://stream.zeno.fm/f3wvbbqmdg8uv"></audio>
+        </div>
+
+        <!-- Links List -->
         <div class="links">
-            
             <a href="https://discord.gg/your-invite-code" target="_blank" class="link-card">
-                <div class="link-content">
-                    <i class="fa-brands fa-discord"></i>
+                <div class="link-left">
+                    <i class="fa-brands fa-discord link-icon"></i>
                     <span class="link-title">Chill House Discord</span>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
+                <span class="action-tag">Tham gia</span>
             </a>
 
             <a href="https://github.com/your-username" target="_blank" class="link-card">
-                <div class="link-content">
-                    <i class="fa-brands fa-github"></i>
+                <div class="link-left">
+                    <i class="fa-brands fa-github link-icon"></i>
                     <span class="link-title">GitHub Profile</span>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
+                <span class="action-tag">Ghé thăm</span>
             </a>
 
             <a href="https://tiktok.com/@your-username" target="_blank" class="link-card">
-                <div class="link-content">
-                    <i class="fa-brands fa-tiktok"></i>
+                <div class="link-left">
+                    <i class="fa-brands fa-tiktok link-icon"></i>
                     <span class="link-title">TikTok Channel</span>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
+                <span class="action-tag">Xem Clip</span>
             </a>
 
+            <!-- Nút Copy Discord Username -->
+            <div class="link-card" onclick="copyToClipboard('four_dev', 'Đã copy Discord Username!')">
+                <div class="link-left">
+                    <i class="fa-solid fa-copy link-icon"></i>
+                    <span class="link-title">Copy Discord Username</span>
+                </div>
+                <span class="action-tag">Copy ID</span>
+            </div>
+
+            <!-- Email Link -->
             <a href="mailto:your-email@gmail.com" class="link-card">
-                <div class="link-content">
-                    <i class="fa-solid fa-envelope"></i>
+                <div class="link-left">
+                    <i class="fa-solid fa-envelope link-icon"></i>
                     <span class="link-title">Gửi Email Liên Hệ</span>
                 </div>
-                <i class="fa-solid fa-chevron-right arrow"></i>
+                <span class="action-tag">Gửi Mail</span>
             </a>
-
         </div>
 
         <footer>
-            © 2026 Tứ. Hosted on GitHub Pages.
+            © 2026 Tứ. Designed with ✨ & Hosted on GitHub.
         </footer>
     </div>
 
-</body>
-</html>
+    <!-- Toast Notification Popup -->
+    <div id="toast" class="toast">Đã copy thành công!</div>
+
+    <script>
+        // --- 1. Typing Effect cho Tagline ---
+        const words = ["DEVELOPER", "CONTENT CREATOR", "CHILL HOUSE OWNER", "TECH ENTHUSIAST"];
+        let i = 0, timer;
+
+        function typingEffect() {
+            let word = words[i].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typing-text').innerHTML += word.shift();
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                    return false;
+                }
+                timer = setTimeout(loopTyping, 100);
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let word = words[i].split("");
+            var loopDeleting = function() {
+                if (word.length > 0) {
+                    word.pop();
+                    document.getElementById('typing-text').innerHTML = word.join("");
+                } else {
+                    if (words.length > (i + 1)) { i++; } else { i = 0; }
+                    setTimeout(typingEffect, 500);
+                    return false;
+                }
+                timer = setTimeout(loopDeleting, 50);
+            };
+            loopDeleting();
+        }
+        typingEffect();
+
+        // --- 2. Music Player Control ---
+        const audio = document.getElementById('bg-audio');
+        const playIcon = document.getElementById('play-icon');
+        const musicCard = document.getElementById('music-card');
+        const statusText = document.getElementById('status-text');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                playIcon.className = 'fa-solid fa-pause';
+                musicCard.classList.add('playing');
+                statusText.innerText = 'Đang phát Lofi...';
+            } else {
+                audio.pause();
+                playIcon.className = 'fa-solid fa-play';
+                musicCard.classList.remove('playing');
+                statusText.innerText = 'Đang dừng';
+            }
+        }
+
+        // --- 3. Copy Clipboard Toast ---
+        function copyToClipboard(text, message) {
+            navigator.clipboard.writeText(text);
+            const toast = document.getElementById('toast');
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => { toast.classList.remove('show'); }, 2500);
+        }
+
+        // --- 4. Discord Lanyard API ---
+        const DISCORD_ID = "YOUR_DISCORD_USER_ID"; // Thay Discord ID thật của bạn ở đây
+        async function fetchDiscordStatus() {
+            if (DISCORD_ID === "YOUR_DISCORD_USER_ID") return;
+            try {
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+                const data = await res.json();
+                if (data.success) {
+                    const status = data.data.discord_status;
+                    const statusElem = document.getElementById('discord-status');
+                    const colors = { online: 'var(--online)', idle: 'var(--idle)', dnd: 'var(--dnd)', offline: 'var(--offline)' };
+                    statusElem.style.backgroundColor = colors[status] || colors.offline;
+                }
+            } catch (e) {}
+        }
+        fetchDiscordStatus();
+        setInterval(fetchDiscordStatus, 30000);
+
+        // --- 5. Interactive Particles with Mouse Line Connection ---
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let mouse = { x: null, y: null, radius: 100 };
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = Array.from({ length: 50 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 2 + 1,
+            vx: (Math.random() - 0.5) * 0.4,
+            vy: (Math.random() - 0.5) * 0.4
+        }));
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+                ctx.fill();
+
+                // Connect particles near mouse
+                for (let j = index + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 90) {
+      
