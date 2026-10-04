@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🇻🇳 Bé Tứ</title>
+    <!-- FontAwesome & Google Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Vanilla Tilt.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <!-- ==========================================
+         ⚙ KHU VỰC CẤU HÌNH THÔNG TIN (CONFIG)
+         ==================================== -->
+    <script>
+        const CONFIG = {
+            // 1. Thông tin cá nhân
+            NAME: "Bé Tứ (itsfour)",
+            BIO: "Thích lập trình, mày mò công nghệ & làm những dự án thú vị! ☕",
+            TYPING_WORDS: ["DEVELOPER", "creative Discord bot", "BS game development", "Adobe, C++, Java, PHP,..", "DIY"],
+            
+            // 2. Hình ảnh cá nhân (Avatar, Sticker & Khung viền)
+            AVATAR_URL: "https://cdn.discordapp.com/attachments/1556260443796803664/1556260683853856798/IMG_20261004_180402.jpg?backend=b2&ex=6ac38434&is=6ac232b4&hm=f56ab40340321ba2105b4a317415265aa59c49308a4a51ccec245348d725c98e&",
+            STICKER_URL: "https://cdn.discordapp.com/attachments/1556260443796803664/1556286150254264401/penci-921ee30f4d2cde30309173022e1ccf63-2025110413.png?backend=b2&ex=6ac39bec&is=6ac24a6c&hm=39cbb37afcae5fc1d270e6f2e3ba7d0bb90761c1d18ee8ea98a7b77a8260b00f&",
+            AVATAR_FRAME_URL: "https://cdn.discordapp.com/attachments/1556260443796803664/1556310666950877295/a_5ca56536445fc7ca06d127be95975091.png?backend=b2&ex=6ac3b2c1&is=6ac26141&hm=f94ee02a617c8d140d46af98d96c8e2606d35ad442df7e0fdcfd741b8022e82e&",
+
+            // 3. Cấu hình 3 ô ảnh vuông nổi bật dưới mô tả
+            FEATURED_IMAGES: [
+                "https://cdn.discordapp.com/attachments/1556260443796803664/1556311907227541654/IMG_20261004_212554.png?backend=b2&ex=6ac3b3e9&is=6ac26269&hm=579a74827213f21e4b58a464dead637774e0d1e695cbcc205580d7e3c4a22cd9&", // Nổi bật 1
+                "https://cdn.discordapp.com/attachments/1556260443796803664/1556311909152718939/IMG_20260509_150844.png?backend=b2&ex=6ac3b3ea&is=6ac2626a&hm=b120de8127d5e8c0501e0f00616c8a679791743d8d8c987e5ad89901463ef099&", // Nổi bật 2
+                "https://cdn.discordapp.com/attachments/1556260443796803664/1556311910721396837/IMG_20260509_150828.png?backend=b2&ex=6ac3b3ea&is=6ac2626a&hm=10e1ea944ad9fee6e244591feea67e20b05fa949f10637218e9b39adb0c194d9&"  // Nổi bật 3
+            ],
+
+            // 4. Cấu hình Slide ảnh nền bằng LINK ẢNH TRỰC TIẾP
+            BANNER_SLIDE_IMAGES: [
+                "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
+                "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
+            ],
+            SLIDE_INTERVAL: 4000, // 4 giây đổi ảnh
+
+            // 5. Discord
+            DISCORD_USER_ID: "458318691172352012", 
+            DISCORD_SERVER_ID: "1551278529604231308",
+
+            // 6. Nhạc nền
+            SONG_TITLE: "Còn Gì Đẹp Hơn 🎵",
+            LOFI_STREAM_URL: "./congidephon.mp3",
+
+            // 7. Danh sách các nút Link
+            LINKS: [
+                {
+                    title: "Chill House Discord",
+                    icon: "fa-brands fa-discord",
+                    url: "https://discord.gg/5rJnKBT626",
+                    type: "link",
+                    tag: "Tham gia"
+                },
+                {
+                    title: "GitHub Profile",
+                    icon: "fa-brands fa-github",
+                    url: "https://github.com/imfour828",
+                    type: "link",
+                    tag: "Ghé thăm"
+                },
+                {
+                    title: "TikTok Channel",
+                    icon: "fa-brands fa-tiktok",
+                    url: "https://www.tiktok.com/@_its.four",
+                    type: "link",
+                    tag: "Theo dõi"
+                }
+            ]
+        };
+    </script>
+
+    <style>
+        :root {
+            --bg-color: #0b140c;
+            --card-bg: rgba(20, 35, 23, 0.85);
+            --card-hover: rgba(32, 54, 36, 0.95);
+            --text-main: #f8fafc;
+            --text-sub: #a3b899;
+            --red-vietnam: #da251d;
+            --gold-star: #ffcd00;
+            --army-green: #3b5336;
+            --border: rgba(255, 205, 0, 0.2);
+            --online: #22c55e;
+            --idle: #eab308;
+            --dnd: #ef4444;
+            --offline: #64748b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--bg-color);
+        }
+
+        body {
+            background-image: 
+                radial-gradient(circle at 50% 10%, rgba(218, 37, 29, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(59, 83, 54, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 10% 80%, rgba(255, 205, 0, 0.15) 0%, transparent 40%);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 12px;
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: rgba(15, 26, 17, 0.85);
+            border: 1.5px solid rgba(255, 205, 0, 0.3);
+            border-radius: 24px;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 20px rgba(218, 37, 29, 0.2);
+            padding-bottom: 24px;
+        }
+
+        .banner-cover {
+            width: 100%;
+            height: 160px;
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .banner-slide-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .banner-slide-img.active {
+            opacity: 1;
+        }
+
+        .banner-cover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(to top, rgba(15, 26, 17, 1), transparent);
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .avatar-container {
+            position: relative;
+            margin: -50px auto 12px auto;
+            display: inline-block;
+            z-index: 5;
+        }
+
+        .helmet-badge {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background: transparent;
+            border: none;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            overflow: visible;
+            transform: rotate(15deg);
+            animation: helmetFloat 3s ease-in-out infinite alternate;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6));
+        }
+
+        .helmet-badge img {
+            width: 110%;
+            height: 110%;
+            object-fit: contain;
+        }
+
+        @keyframes helmetFloat {
+            0% { transform: translateY(0) rotate(15deg); }
+            100% { transform: translateY(-3px) rotate(19deg); }
+        }
+
+        .avatar-ring {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--red-vietnam), var(--gold-star), var(--army-green), var(--gold-star));
+            background-size: 300% 300%;
+            animation: spin-gradient 4s linear infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px rgba(255, 205, 0, 0.4);
+        }
+
+        @keyframes spin-gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .profile-img {
+            width: 102px;
+            height: 102px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #0f1a11;
+            display: block;
+            background-color: #1b2e1e;
+        }
+
+        .avatar-frame {
+            position: absolute;
+            top: -10px;
+            left: -8px;
+            width: 125px;
+            height: 125px;
+            object-fit: contain;
+            pointer-events: none;
+            z-index: 7;
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 3px solid #0f1a11;
+            background-color: var(--offline);
+            z-index: 8;
+            transition: background-color 0.3s ease;
+        }
+
+        .content-box {
+            padding: 0 16px;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+            background: linear-gradient(135deg, #ffffff 30%, var(--gold-star) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline-box {
+            height: 22px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .tagline {
+            color: var(--gold-star);
+            font-size: 0.82rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-right: 2px solid var(--gold-star);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: blink 0.75s step-end infinite;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--gold-star); }
+        }
+
+        .slogan-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(218, 37, 29, 0.2);
+            border: 1px solid var(--red-vietnam);
+            color: #ff8b85;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .music-inline-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 14px;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .song-name {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--gold-star);
+            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(255, 205, 0, 0.4);
+        }
+
+        .wave-box {
+            display: flex;
+            gap: 3px;
+            align-items: flex-end;
+            height: 14px;
+        }
+
+        .wave-bar {
+            width: 3px;
+            height: 3px;
+            background: var(--red-vietnam);
+            border-radius: 2px;
+            opacity: 0.3;
+        }
+
+        .playing .wave-bar {
+            opacity: 1;
+            animation: wave 1.2s ease-in-out infinite;
+        }
+
+        .playing .wave-bar:nth-child(1) { animation-delay: 0.1s; }
+        .playing .wave-bar:nth-child(2) { animation-delay: 0.3s; }
+        .playing .wave-bar:nth-child(3) { animation-delay: 0.2s; }
+        .playing .wave-bar:nth-child(4) { animation-delay: 0.5s; }
+        .playing .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { height: 3px; }
+            50% { height: 14px; }
+        }
+
+        .bio-text {
+            color: var(--text-sub);
+            font-size: 0.88rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .featured-item {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .featured-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .featured-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .featured-item:hover {
+            border-color: var(--gold-star);
+            box-shadow: 0 0 12px rgba(255, 205, 0, 0.4);
+        }
+
+        .links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .link-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .link-card:hover {
+            background: var(--card-hover);
+            border-color: var(--gold-star);
+            box-shadow: 0 0 15px rgba(255, 205, 0, 0.3);
+        }
+
+        .link-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .link-icon {
+            font-size: 1.2rem;
+            color: var(--gold-star);
+            width: 22px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .link-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .action-tag {
+            font-size: 0.7rem;
+            color: var(--gold-star);
+            background: rgba(255, 205, 0, 0.1);
+            padding: 3px 8px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 205, 0, 0.3);
+        }
+
+        .discord-widget-box {
+            width: 100%;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: rgba(15, 26, 17, 0.6);
+            margin-top: 10px;
+        }
+
+        .discord-widget-box iframe {
+            width: 100%;
+            height: 360px;
+            border: none;
+            display: block;
+        }
+
+        footer {
+            margin-top: 20px;
+            color: var(--text-sub);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Banner Slide Link Ảnh -->
+        <div class="banner-cover" id="banner-slider"></div>
+
+        <div class="content-box">
+            <!-- Avatar Section + Khung viền & Sticker -->
+            <div class="avatar-container">
+                <div class="helmet-badge" title="Sticker">
+                    <img id="sticker-img" src="" alt="Sticker">
+                </div>
+
+                <div class="avatar-ring">
+                    <img id="avatar-img" src="" alt="Avatar" class="profile-img">
+                </div>
+
+                <img id="avatar-frame-img" src="" alt="Avatar Frame" class="avatar-frame">
+
+                <div id="discord-status" class="status-badge" title="Discord Status"></div>
+            </div>
+            
+            <!-- Header -->
+            <h1 id="user-name"></h1>
+            <div class="tagline-box">
+                <span class="tagline" id="typing-text"></span>
+            </div>
+
+            <div class="slogan-badge">
+                <i class="fa-solid fa-star"></i> DEVELOPER CỤ HỒ <i class="fa-solid fa-star"></i>
+            </div>
+
+            <div class="music-inline-container" id="music-toggle" title="Bấm để Bật/Tắt nhạc">
+                <div class="song-name" id="song-name-text">🎵 Còn Gì Đẹp Hơn</div>
+                <div class="wave-box" id="wave-visualizer">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+            </div>
+
+            <p class="bio-text" id="user-bio"></p>
+
+            <!-- 3 ô ảnh vuông nổi bật -->
+            <div class="featured-grid" id="featured-images-container"></div>
+
+            <!-- Các nút liên kết -->
+            <div class="links" id="links-container"></div>
+
+            <div class="discord-widget-box js-tilt" data-tilt data-tilt-max="3">
+                <iframe id="discord-widget-iframe" src="" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
+
+            <footer>
+                🇻🇳 | © itsfour 2026
+            </footer>
+        </div>
+    </div>
+
+    <audio id="bg-audio" loop preload="auto"></audio>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('user-name').innerText = CONFIG.NAME || "My Name";
+            document.getElementById('user-bio').innerText = CONFIG.BIO || "";
+            document.getElementById('avatar-img').src = CONFIG.AVATAR_URL || "";
+            document.getElementById('sticker-img').src = CONFIG.STICKER_URL || "";
+            
+            const frameImg = document.getElementById('avatar-frame-img');
+            if (CONFIG.AVATAR_FRAME_URL) {
+                frameImg.src = CONFIG.AVATAR_FRAME_URL;
+            } else {
+                frameImg.style.display = 'none';
+            }
+
+            const featuredContainer = document.getElementById('featured-images-container');
+            if (CONFIG.FEATURED_IMAGES && CONFIG.FEATURED_IMAGES.length > 0) {
+                featuredContainer.innerHTML = CONFIG.FEATURED_IMAGES.map(imgUrl => `
+                    <div class="featured-item js-tilt" data-tilt data-tilt-max="8">
+                        <img src="${imgUrl}" alt="Featured Image">
+                    </div>
+                `).join('');
+            }
+
+            initBannerSlide();
+
+            const audio = document.getElementById('bg-audio');
+            const waveVisualizer = document.getElementById('wave-visualizer');
+            if (CONFIG.SONG_TITLE) {
+                document.getElementById('song-name-text').innerText = CONFIG.SONG_TITLE;
+            }
+            if (CONFIG.LOFI_STREAM_URL) {
+                audio.src = CONFIG.LOFI_STREAM_URL;
+            }
+
+            function playMusic() {
+                if (!audio.src) return;
+                audio.play().then(() => {
+                    waveVisualizer.classList.add('playing');
+                }).catch(err => {
+                    console.log("Trình duyệt chờ tương tác:", err);
+                });
+            }
+
+            playMusic();
+
+            const playOnInteraction = () => {
+                if (audio.paused && audio.src) {
+                    playMusic();
+                }
+                document.removeEventListener('click', playOnInteraction);
+                document.removeEventListener('touchstart', playOnInteraction);
+            };
+
+            document.addEventListener('click', playOnInteraction);
+            document.addEventListener('touchstart', playOnInteraction);
+
+            document.getElementById('music-toggle').addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (audio.paused) {
+                    audio.play();
+                    waveVisualizer.classList.add('playing');
+                } else {
+                    audio.pause();
+                    waveVisualizer.classList.remove('playing');
+                }
+            });
+
+            if (CONFIG.DISCORD_SERVER_ID) {
+                document.getElementById('discord-widget-iframe').src = `https://discord.com/widget?id=${CONFIG.DISCORD_SERVER_ID}&theme=dark`;
+            }
+
+            const container = document.getElementById('links-container');
+            if (CONFIG.LINKS && CONFIG.LINKS.length > 0) {
+                container.innerHTML = CONFIG.LINKS.map(item => `
+                    <a href="${item.url}" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="5">
+                        <div class="link-left">
+                            <i class="${item.icon} link-icon"></i>
+                            <span class="link-title">${item.title}</span>
+                        </div>
+                        <span class="action-tag">${item.tag}</span>
+                    </a>
+                `).join('');
+            }
+
+            if (typeof VanillaTilt !== 'undefined') {
+                VanillaTilt.init(document.querySelectorAll(".js-tilt"));
+            }
+
+            typingEffect();
+            fetchDiscordStatus();
+        });
+
+        function initBannerSlide() {
+            const sliderContainer = document.getElementById('banner-slider');
+            const images = CONFIG.BANNER_SLIDE_IMAGES;
+            if (!images || images.length === 0) return;
+
+            images.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.className = `banner-slide-img ${index === 0 ? 'active' : ''}`;
+                sliderContainer.appendChild(img);
+            });
+
+            let currentIndex = 0;
+            const slideImgs = sliderContainer.querySelectorAll('.banner-slide-img');
+
+            if (slideImgs.length > 1) {
+                setInterval(() => {
+                    slideImgs[currentIndex].classList.remove('active');
+                    currentIndex = (currentIndex + 1) % slideImgs.length;
+                    slideImgs[currentIndex].classList.add('active');
+                }, CONFIG.SLIDE_INTERVAL || 4000);
+            }
+        }
+
+        let wordIndex = 0;
+        function typingEffect() {
+            let words = CONFIG.TYPING_WORDS;
+            if(!words || words.length === 0) return;
+            let word = words[wordIndex].split("");
+            var loopTyping = function() {
+                if (word.length > 0) {
+                    document.getElementById('typing-text').innerHTML += word.shift();
+                    setTimeout(loopTyping, 100);
+                } else {
+                    setTimeout(deletingEffect, 2000);
+                }
+            };
+            loopTyping();
+        }
+
+        function deletingEffect() {
+            let words = CONFIG.TYPING_WORDS;
+            let currentText = document.getElementById('typing-text').innerHTML;
+            if (currentText.length > 0) {
+                document.getElementById('typing-text').innerHTML = currentText.substring(0, currentText.length - 1);
+                setTimeout(deletingEffect, 50);
+            } else {
+                wordIndex = (wordIndex + 1) % words.length;
+                typingEffect();
+            }
+        }
+
+        function fetchDiscordStatus() {
+            if (!CONFIG.DISCORD_USER_ID || CONFIG.DISCORD_USER_ID === "YOUR_DISCORD_USER_ID") return;
+            fetch(`https://api.lanyard.rest/v1/users/${CONFIG.DISCORD_USER_ID}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success && data.data) {
+                        const status = data.data.discord_status;
+                        const badge = document.getElementById('discord-status');
+                        const colors = {
+                            online: 'var(--online)',
+                            idle: 'var(--idle)',
+                            dnd: 'var(--dnd)',
+                            offline: 'var(--offline)'
+                        };
+                        badge.style.backgroundColor = colors[status] || colors.offline;
+                    }
+                })
+                .catch(err => console.log("Lanyard API error:", err));
+        }
+    </script>
+</body>
+</html>
