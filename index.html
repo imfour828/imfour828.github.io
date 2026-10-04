@@ -3,12 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tứ | Personal Bio Portal</title>
+    <title>Personal Bio Portal</title>
     <!-- FontAwesome & Google Fonts -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Vanilla Tilt.js cho hiệu ứng nghiêng 3D -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+
+    <!-- =========================================================
+         ⚙️ KHU VỰC CẤU HÌNH THÔNG TIN (SỬA Ở ĐÂY RẤT DỄ DÀNG)
+         ========================================================= -->
+    <script>
+        const CONFIG = {
+            // 1. Thông tin cá nhân
+            NAME: "Tứ (Four) 👋",
+            BIO: "Thích lập trình, mày mò công nghệ & làm những dự án thú vị. Luôn giữ tinh thần học hỏi và chill! ☕✨",
+            TYPING_WORDS: ["DEVELOPER", "CONTENT CREATOR", "CHILL HOUSE OWNER", "TECH ENTHUSIAST"],
+            
+            // 2. Hình ảnh (Dán URL ảnh của bạn vào đây)
+            AVATAR_URL: "https://cdn.discordapp.com/attachments/1556260443796803664/1556260683853856798/IMG_20261004_180402.jpg?backend=b2&ex=6ac38434&is=6ac232b4&hm=f56ab40340321ba2105b4a317415265aa59c49308a4a51ccec245348d725c98e&",
+            BANNER_URL: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop",
+
+            // 3. Discord ID (Dùng để hiển thị trạng thái Online/Offline tự động từ Lanyard)
+            DISCORD_USER_ID: "imfour.828", // Nhập Discord User ID thật tại đây
+
+            // 4. Nhạc nền (Link nhạc mp3 hoặc Radio Stream)
+            LOFI_STREAM_URL: "https://stream.zeno.fm/f3wvbbqmdg8uv",
+
+            // 5. Danh sách các nút Link (Thêm, bớt hoặc sửa thoải mái)
+            LINKS: [
+                {
+                    title: "Chill House Discord",
+                    icon: "fa-brands fa-discord", // Mã icon FontAwesome
+                    url: "https://discord.gg/your-invite-code",
+                    type: "link", // "link" là mở trang web
+                    tag: "Tham gia"
+                },
+                {
+                    title: "GitHub Profile",
+                    icon: "fa-brands fa-github",
+                    url: "https://github.com/your-username",
+                    type: "link",
+                    tag: "Ghé thăm"
+                },
+                {
+                    title: "TikTok Channel",
+                    icon: "fa-brands fa-tiktok",
+                    url: "https://tiktok.com/@your-username",
+                    type: "link",
+                    tag: "Xem Clip"
+                },
+                {
+                    title: "Copy Discord Username",
+                    icon: "fa-solid fa-copy",
+                    valueToCopy: "four_dev", // Tên username để copy
+                    toastMessage: "Đã copy Discord Username!",
+                    type: "copy", // "copy" là sao chép vào bộ nhớ tạm
+                    tag: "Copy ID"
+                },
+                {
+                    title: "Gửi Email Liên Hệ",
+                    icon: "fa-solid fa-envelope",
+                    url: "mailto:your-email@gmail.com",
+                    type: "link",
+                    tag: "Gửi Mail"
+                }
+            ]
+        };
+    </script>
+    <!-- ========================================================= -->
+
     <style>
         :root {
             --bg-color: #080c14;
@@ -76,7 +140,9 @@
         .banner-cover {
             width: 100%;
             height: 140px;
-            background: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
             position: relative;
         }
 
@@ -396,27 +462,25 @@
 
     <div class="container">
         <!-- Banner Ảnh bìa -->
-        <div class="banner-cover"></div>
+        <div class="banner-cover" id="banner-img"></div>
 
         <div class="content-box">
             <!-- Avatar Section -->
             <div class="avatar-container">
                 <div class="avatar-ring">
-                    <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Four" alt="Avatar" class="profile-img">
+                    <img id="avatar-img" src="" alt="Avatar" class="profile-img">
                 </div>
                 <div id="discord-status" class="status-badge" title="Discord Status"></div>
             </div>
             
             <!-- Header -->
-            <h1>Tứ (Four) 👋</h1>
+            <h1 id="user-name"></h1>
             <div class="tagline-box">
                 <span class="tagline" id="typing-text"></span>
             </div>
-            <p class="bio-text">
-                Thích lập trình, mày mò công nghệ & làm những dự án thú vị. Luôn giữ tinh thần học hỏi và chill! ☕✨
-            </p>
+            <p class="bio-text" id="user-bio"></p>
 
-            <!-- Music Player Card (Nghiêng 3D) -->
+            <!-- Music Player Card -->
             <div class="music-card js-tilt" id="music-card" data-tilt data-tilt-max="7" data-tilt-speed="400">
                 <div class="music-left">
                     <div class="vinyl-record">
@@ -437,56 +501,14 @@
                 <button class="play-btn" onclick="toggleAudio()">
                     <i class="fa-solid fa-play" id="play-icon"></i>
                 </button>
-                <audio id="bg-audio" loop src="https://stream.zeno.fm/f3wvbbqmdg8uv"></audio>
+                <audio id="bg-audio" loop></audio>
             </div>
 
-            <!-- Links List (Nghiêng 3D) -->
-            <div class="links">
-                <a href="https://discord.gg/your-invite-code" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
-                    <div class="link-left">
-                        <i class="fa-brands fa-discord link-icon"></i>
-                        <span class="link-title">Chill House Discord</span>
-                    </div>
-                    <span class="action-tag">Tham gia</span>
-                </a>
-
-                <a href="https://github.com/your-username" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
-                    <div class="link-left">
-                        <i class="fa-brands fa-github link-icon"></i>
-                        <span class="link-title">GitHub Profile</span>
-                    </div>
-                    <span class="action-tag">Ghé thăm</span>
-                </a>
-
-                <a href="https://tiktok.com/@your-username" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
-                    <div class="link-left">
-                        <i class="fa-brands fa-tiktok link-icon"></i>
-                        <span class="link-title">TikTok Channel</span>
-                    </div>
-                    <span class="action-tag">Xem Clip</span>
-                </a>
-
-                <!-- Nút Copy Discord Username -->
-                <div class="link-card js-tilt" data-tilt data-tilt-max="8" onclick="copyToClipboard('four_dev', 'Đã copy Discord Username!')">
-                    <div class="link-left">
-                        <i class="fa-solid fa-copy link-icon"></i>
-                        <span class="link-title">Copy Discord Username</span>
-                    </div>
-                    <span class="action-tag">Copy ID</span>
-                </div>
-
-                <!-- Email Link -->
-                <a href="mailto:your-email@gmail.com" class="link-card js-tilt" data-tilt data-tilt-max="8">
-                    <div class="link-left">
-                        <i class="fa-solid fa-envelope link-icon"></i>
-                        <span class="link-title">Gửi Email Liên Hệ</span>
-                    </div>
-                    <span class="action-tag">Gửi Mail</span>
-                </a>
-            </div>
+            <!-- Container danh sách các nút Link -->
+            <div class="links" id="links-container"></div>
 
             <footer>
-                © 2026 Tứ. Designed with ✨ & Hosted on GitHub.
+                © 2026 Designed with ✨ & Hosted on GitHub.
             </footer>
         </div>
     </div>
@@ -495,11 +517,56 @@
     <div id="toast" class="toast">Đã copy thành công!</div>
 
     <script>
-        // --- 1. Typing Effect cho Tagline ---
-        const words = ["DEVELOPER", "CONTENT CREATOR", "CHILL HOUSE OWNER", "TECH ENTHUSIAST"];
-        let i = 0, timer;
+        // --- NẠP DỮ LIỆU TỪ CẤU HÌNH CONFIG ---
+        document.addEventListener("DOMContentLoaded", () => {
+            // Nạp Tên & Bio & Hình Ảnh
+            document.getElementById('user-name').innerText = CONFIG.NAME;
+            document.getElementById('user-bio').innerText = CONFIG.BIO;
+            document.getElementById('avatar-img').src = CONFIG.AVATAR_URL;
+            document.getElementById('banner-img').style.backgroundImage = `url('${CONFIG.BANNER_URL}')`;
+            document.getElementById('bg-audio').src = CONFIG.LOFI_STREAM_URL;
 
+            // Render Danh sách Links
+            const container = document.getElementById('links-container');
+            container.innerHTML = CONFIG.LINKS.map(item => {
+                if (item.type === 'copy') {
+                    return `
+                        <div class="link-card js-tilt" data-tilt data-tilt-max="8" onclick="copyToClipboard('${item.valueToCopy}', '${item.toastMessage}')">
+                            <div class="link-left">
+                                <i class="${item.icon} link-icon"></i>
+                                <span class="link-title">${item.title}</span>
+                            </div>
+                            <span class="action-tag">${item.tag}</span>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <a href="${item.url}" target="_blank" class="link-card js-tilt" data-tilt data-tilt-max="8">
+                            <div class="link-left">
+                                <i class="${item.icon} link-icon"></i>
+                                <span class="link-title">${item.title}</span>
+                            </div>
+                            <span class="action-tag">${item.tag}</span>
+                        </a>
+                    `;
+                }
+            }).join('');
+
+            // Kích hoạt lại hiệu ứng 3D Tilt cho các nút vừa Render
+            VanillaTilt.init(document.querySelectorAll(".js-tilt"));
+
+            // Chạy hiệu ứng chữ gõ
+            typingEffect();
+            
+            // Lấy trạng thái Discord
+            fetchDiscordStatus();
+        });
+
+        // --- 1. Typing Effect ---
+        let i = 0, timer;
         function typingEffect() {
+            let words = CONFIG.TYPING_WORDS;
+            if(!words || words.length === 0) return;
             let word = words[i].split("");
             var loopTyping = function() {
                 if (word.length > 0) {
@@ -514,6 +581,7 @@
         }
 
         function deletingEffect() {
+            let words = CONFIG.TYPING_WORDS;
             let word = words[i].split("");
             var loopDeleting = function() {
                 if (word.length > 0) {
@@ -528,9 +596,8 @@
             };
             loopDeleting();
         }
-        typingEffect();
 
-        // --- 2. Music Player Control ---
+        // --- 2. Music Player ---
         const audio = document.getElementById('bg-audio');
         const playIcon = document.getElementById('play-icon');
         const musicCard = document.getElementById('music-card');
@@ -550,7 +617,7 @@
             }
         }
 
-        // --- 3. Copy Clipboard Toast ---
+        // --- 3. Copy Toast ---
         function copyToClipboard(text, message) {
             navigator.clipboard.writeText(text);
             const toast = document.getElementById('toast');
@@ -560,11 +627,10 @@
         }
 
         // --- 4. Discord Lanyard API ---
-        const DISCORD_ID = "YOUR_DISCORD_USER_ID"; // Thay Discord ID thật của bạn ở đây
         async function fetchDiscordStatus() {
-            if (DISCORD_ID === "YOUR_DISCORD_USER_ID") return;
+            if (!CONFIG.DISCORD_USER_ID || CONFIG.DISCORD_USER_ID === "YOUR_DISCORD_USER_ID") return;
             try {
-                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
+                const res = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.DISCORD_USER_ID}`);
                 const data = await res.json();
                 if (data.success) {
                     const status = data.data.discord_status;
@@ -574,10 +640,9 @@
                 }
             } catch (e) {}
         }
-        fetchDiscordStatus();
         setInterval(fetchDiscordStatus, 30000);
 
-        // --- 5. Interactive Particles ---
+        // --- 5. Interactive Particles Background ---
         const canvas = document.getElementById('particles-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -593,252 +658,11 @@
             y: Math.random() * canvas.height,
             radius: Math.random() * 2 + 1,
             vx: (Math.random() - 0.5) * 0.4,
-            vy: (Math.rar .action-tag {
-            color: var(--accent);
-            border-color: var(--border-hover);
-        }
-
-        /* Toast Popup Notification */
-        .toast {
-            position: fixed;
-            bottom: -60px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid var(--accent);
-            color: var(--text-main);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            backdrop-filter: blur(10px);
-            transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 1000;
-        }
-
-        .toast.show {
-            bottom: 30px;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 32px;
-            color: var(--text-sub);
-            font-size: 0.78rem;
-            letter-spacing: 0.5px;
-        }
-    </style>
-</head>
-<body>
-
-    <canvas id="particles-canvas"></canvas>
-
-    <div class="container">
-        <!-- Avatar Section -->
-        <div class="avatar-wrapper">
-            <div class="avatar-glow"></div>
-            <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Four" alt="Avatar" class="profile-img">
-            <div id="discord-status" class="status-badge" title="Discord Status"></div>
-        </div>
-        
-        <!-- Header -->
-        <h1>Tứ (Four) 👋</h1>
-        <div class="tagline-box">
-            <span class="tagline" id="typing-text"></span>
-        </div>
-        <p class="bio-text">
-            Thích lập trình, mày mò công nghệ & làm những dự án thú vị. Luôn giữ tinh thần học hỏi và chill! ☕✨
-        </p>
-
-        <!-- Music Player Card -->
-        <div class="music-card" id="music-card">
-            <div class="music-left">
-                <div class="vinyl-record">
-                    <div class="vinyl-center"></div>
-                </div>
-                <div class="music-info">
-                    <div class="music-title">Chill Lo-Fi Radio</div>
-                    <div class="music-status">
-                        <span id="status-text">Đang dừng</span>
-                        <div class="wave-box">
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                            <div class="wave-bar"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <button class="play-btn" onclick="toggleAudio()">
-                <i class="fa-solid fa-play" id="play-icon"></i>
-            </button>
-            <audio id="bg-audio" loop src="https://stream.zeno.fm/f3wvbbqmdg8uv"></audio>
-        </div>
-
-        <!-- Links List -->
-        <div class="links">
-            <a href="https://discord.gg/your-invite-code" target="_blank" class="link-card">
-                <div class="link-left">
-                    <i class="fa-brands fa-discord link-icon"></i>
-                    <span class="link-title">Chill House Discord</span>
-                </div>
-                <span class="action-tag">Tham gia</span>
-            </a>
-
-            <a href="https://github.com/your-username" target="_blank" class="link-card">
-                <div class="link-left">
-                    <i class="fa-brands fa-github link-icon"></i>
-                    <span class="link-title">GitHub Profile</span>
-                </div>
-                <span class="action-tag">Ghé thăm</span>
-            </a>
-
-            <a href="https://tiktok.com/@your-username" target="_blank" class="link-card">
-                <div class="link-left">
-                    <i class="fa-brands fa-tiktok link-icon"></i>
-                    <span class="link-title">TikTok Channel</span>
-                </div>
-                <span class="action-tag">Xem Clip</span>
-            </a>
-
-            <!-- Nút Copy Discord Username -->
-            <div class="link-card" onclick="copyToClipboard('four_dev', 'Đã copy Discord Username!')">
-                <div class="link-left">
-                    <i class="fa-solid fa-copy link-icon"></i>
-                    <span class="link-title">Copy Discord Username</span>
-                </div>
-                <span class="action-tag">Copy ID</span>
-            </div>
-
-            <!-- Email Link -->
-            <a href="mailto:your-email@gmail.com" class="link-card">
-                <div class="link-left">
-                    <i class="fa-solid fa-envelope link-icon"></i>
-                    <span class="link-title">Gửi Email Liên Hệ</span>
-                </div>
-                <span class="action-tag">Gửi Mail</span>
-            </a>
-        </div>
-
-        <footer>
-            © 2026 Tứ. Designed with ✨ & Hosted on GitHub.
-        </footer>
-    </div>
-
-    <!-- Toast Notification Popup -->
-    <div id="toast" class="toast">Đã copy thành công!</div>
-
-    <script>
-        // --- 1. Typing Effect cho Tagline ---
-        const words = ["DEVELOPER", "CONTENT CREATOR", "CHILL HOUSE OWNER", "TECH ENTHUSIAST"];
-        let i = 0, timer;
-
-        function typingEffect() {
-            let word = words[i].split("");
-            var loopTyping = function() {
-                if (word.length > 0) {
-                    document.getElementById('typing-text').innerHTML += word.shift();
-                } else {
-                    setTimeout(deletingEffect, 2000);
-                    return false;
-                }
-                timer = setTimeout(loopTyping, 100);
-            };
-            loopTyping();
-        }
-
-        function deletingEffect() {
-            let word = words[i].split("");
-            var loopDeleting = function() {
-                if (word.length > 0) {
-                    word.pop();
-                    document.getElementById('typing-text').innerHTML = word.join("");
-                } else {
-                    if (words.length > (i + 1)) { i++; } else { i = 0; }
-                    setTimeout(typingEffect, 500);
-                    return false;
-                }
-                timer = setTimeout(loopDeleting, 50);
-            };
-            loopDeleting();
-        }
-        typingEffect();
-
-        // --- 2. Music Player Control ---
-        const audio = document.getElementById('bg-audio');
-        const playIcon = document.getElementById('play-icon');
-        const musicCard = document.getElementById('music-card');
-        const statusText = document.getElementById('status-text');
-
-        function toggleAudio() {
-            if (audio.paused) {
-                audio.play();
-                playIcon.className = 'fa-solid fa-pause';
-                musicCard.classList.add('playing');
-                statusText.innerText = 'Đang phát Lofi...';
-            } else {
-                audio.pause();
-                playIcon.className = 'fa-solid fa-play';
-                musicCard.classList.remove('playing');
-                statusText.innerText = 'Đang dừng';
-            }
-        }
-
-        // --- 3. Copy Clipboard Toast ---
-        function copyToClipboard(text, message) {
-            navigator.clipboard.writeText(text);
-            const toast = document.getElementById('toast');
-            toast.innerText = message;
-            toast.classList.add('show');
-            setTimeout(() => { toast.classList.remove('show'); }, 2500);
-        }
-
-        // --- 4. Discord Lanyard API ---
-        const DISCORD_ID = "YOUR_DISCORD_USER_ID"; // Thay Discord ID thật của bạn ở đây
-        async function fetchDiscordStatus() {
-            if (DISCORD_ID === "YOUR_DISCORD_USER_ID") return;
-            try {
-                const res = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
-                const data = await res.json();
-                if (data.success) {
-                    const status = data.data.discord_status;
-                    const statusElem = document.getElementById('discord-status');
-                    const colors = { online: 'var(--online)', idle: 'var(--idle)', dnd: 'var(--dnd)', offline: 'var(--offline)' };
-                    statusElem.style.backgroundColor = colors[status] || colors.offline;
-                }
-            } catch (e) {}
-        }
-        fetchDiscordStatus();
-        setInterval(fetchDiscordStatus, 30000);
-
-        // --- 5. Interactive Particles with Mouse Line Connection ---
-        const canvas = document.getElementById('particles-canvas');
-        const ctx = canvas.getContext('2d');
-        let mouse = { x: null, y: null, radius: 100 };
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        const particles = Array.from({ length: 50 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: Math.random() * 2 + 1,
-            vx: (Math.random() - 0.5) * 0.4,
             vy: (Math.random() - 0.5) * 0.4
         }));
 
         function drawParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -851,9 +675,21 @@
                 ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
                 ctx.fill();
 
-                // Connect particles near mouse
                 for (let j = index + 1; j < particles.length; j++) {
                     const p2 = particles[j];
                     const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
                     if (dist < 90) {
-      
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${0.15 - dist/600})`;
+                        ctx.stroke();
+                    }
+                }
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+    </script>
+</body>
+</html>
